@@ -7,6 +7,8 @@ Tiny PHP .txt file upload framework / RESTful service
 Created in response to http://stackoverflow.com/questions/26200894/incluide-a-user-txt-in-php/
 
 
+You can test it on http://geovolutions.com/playground/fileattachment/form.html
+
 ###Usage
 
 Usage is pretty straight forward:
