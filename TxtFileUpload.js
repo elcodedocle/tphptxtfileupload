@@ -1,8 +1,10 @@
 /**
  * Performs validation checks and AJAX processing of upload file form
  */
-var TxtFileUpload = function () {
+var TxtFileUpload = function (params) {
   var tThis = this;
+  this.outputNode = (typeof params === 'object' && params.hasOwnProperty('outputNode'))?params.outputNode:undefined;
+  this.form = (typeof params === 'object' && params.hasOwnProperty('form'))?params.form:undefined;
   this.validationSuccessCallback = function(){
     return true;
   };
@@ -31,6 +33,19 @@ var TxtFileUpload = function () {
     }
     return tThis.validationSuccessCallback();
   };
+  this.handleFileSelect = function (evt) {
+    var files = evt.target.files; // FileList object
+
+    if (typeof tThis.outputNode === 'undefined') return;
+
+    // files is a FileList of File objects. List some properties.
+    var fileReader = new FileReader();
+    fileReader.onload = function(e) {
+      tThis.outputNode.innerHTML = e.target.result;
+    };
+    fileReader.readAsText(files[0]);
+  };
+
   this.successCallback = function(response){
     window.alert(response.result.message);
   };
@@ -38,12 +53,14 @@ var TxtFileUpload = function () {
     window.alert(response.result.message);
   };
   this.setFormListener = function (form){
+    if (typeof form === 'undefined') return;
     form.addEventListener("submit", function (event) {
       event.preventDefault();
       if (tThis.clientValidation(form)){
         sendData(form);
       }
-    });  
+    });
+    form.theFile.addEventListener('change', tThis.handleFileSelect, false);
   };
   function sendData(form) {
     var XHR = new XMLHttpRequest(),
@@ -70,11 +87,13 @@ var TxtFileUpload = function () {
     XHR.open("POST", form.action);
     XHR.send(FD);
   }
+  if (typeof this.form !== 'undefined'){
+    this.setFormListener(this.form);
+  }
 };
 
 
 window.addEventListener("load",function(){
-    var txtUpload = new TxtFileUpload();
-    txtUpload.setFormListener(document.getElementById("theForm"));
+    var txtUpload = new TxtFileUpload({'form':document.getElementById("theForm"),'outputNode':document.getElementById("theFileContents")});
   }
 );
