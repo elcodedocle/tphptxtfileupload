@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Form With File Attachment</title>
+    <script type="text/javascript" src="TxtFileUpload.js"></script>
+  </head>
+  <body>
+    <h1>Tiny PHP text file upload framework</h1>
+    <p>Upload a .txt file using the following form:</p>
+    <form id="theForm" action="processForm.php" method="post" enctype="multipart/form-data">
+      User name:
+      <input type="text" name="user" placeholder="USER" />
+      <br />
+      File name: 
+      <input type="file" name="theFile" />
+      <br />
+      <input type="submit" value="Upload File" />
+    </form>
+  </body>
+</html>
