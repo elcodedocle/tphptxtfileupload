@@ -43,7 +43,11 @@ var TxtFileUpload = function (params) {
     fileReader.onload = function(e) {
       tThis.outputNode.innerHTML = e.target.result;
     };
-    fileReader.readAsText(files[0]);
+    if (files[0] !== undefined){
+      fileReader.readAsText(files[0]);
+    } else {
+      tThis.outputNode.innerHTML = '';
+    }
   };
 
   this.successCallback = function(response){
