@@ -12,6 +12,18 @@ var TxtFileUpload = function (params) {
     window.alert(params.message);
     return false;
   };
+  this.clientFileValidation = function(form){
+    var fieldName = 'theFile';
+    if (!form[fieldName].files[0].name.match(/^([a-z0-9_]+|(-)*){1,123}\.txt$/i)){
+      message = 'Invalid file (Must be a .txt file, no other dots or starting hyphens allowed on file name)'
+      return tThis.validationErrorCallback({
+        'form':form, 
+        'fieldName':fieldName, 
+        'message':message
+      });
+    }
+    return tThis.validationSuccessCallback();
+  }
   this.clientValidation = function (form){
     var fieldName = 'user';
     if (!form[fieldName].value.match(/[a-z0-9\._]{4,31}/i)){
@@ -22,16 +34,8 @@ var TxtFileUpload = function (params) {
         'message':message
       });
     }
-    fieldName = 'theFile';
-    if (!form[fieldName].files[0].name.match(/^([a-z0-9_]+|(-)*){1,123}\.txt$/i)){
-      message = 'Invalid file (Must be a .txt file, no other dots or starting hyphens allowed on file name)'
-      return tThis.validationErrorCallback({
-        'form':form, 
-        'fieldName':fieldName, 
-        'message':message
-      });
-    }
-    return tThis.validationSuccessCallback();
+    
+    return tThis.clientFileValidation(form);
   };
   this.handleFileSelect = function (evt) {
     var files = evt.target.files; // FileList object
@@ -43,7 +47,7 @@ var TxtFileUpload = function (params) {
     fileReader.onload = function(e) {
       tThis.outputNode.innerHTML = e.target.result;
     };
-    if (files[0] !== undefined){
+    if (files[0] !== undefined && tThis.clientFileValidation(tThis.form)){
       fileReader.readAsText(files[0]);
     } else {
       tThis.outputNode.innerHTML = '';
