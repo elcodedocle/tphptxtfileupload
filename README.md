@@ -3,8 +3,6 @@ tphptxtfileupload
 
 Tiny PHP .txt file upload framework / RESTful service
 
-Created in response to http://stackoverflow.com/questions/26200894/incluide-a-user-txt-in-php/
-
 
 ###Usage
 
@@ -26,4 +24,4 @@ chown apache: /var/www/uploads && chmod 700 /var/www/uploadsCheck
 destination folder, if you want to avoid the files being exposed to the public. 
 
 
- - Check the code and SO question/answer for more details.
+ - Check the code for more details.
